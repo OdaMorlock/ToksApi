@@ -82,16 +82,20 @@ namespace ToksApi.Services
 
                     foreach (var IssueList in List)
                     {
-                        issueList.Add(new IssueModel
+                        if (IssueList.Id == Id)
                         {
-                            Id = IssueList.Id,
-                            Title = IssueList.Title,
-                            Description = IssueList.Description,
-                            IssueType = IssueList.IssueType,
-                            Priority = IssueList.Priority,
-                            Completed = IssueList.Completed,
-                            Created = IssueList.Created
-                        });
+                            issueList.Add(new IssueModel
+                            {
+                                Id = IssueList.Id,
+                                Title = IssueList.Title,
+                                Description = IssueList.Description,
+                                IssueType = IssueList.IssueType,
+                                Priority = IssueList.Priority,
+                                Completed = IssueList.Completed,
+                                Created = IssueList.Created
+                            });
+                        }
+                       
                     }
 
                     if (issueList != null)
