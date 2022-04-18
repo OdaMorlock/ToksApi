@@ -75,15 +75,20 @@ namespace ToksApi.Services
             try
             {
 
-                if (_issueDb.Issues.Any(x => x.Id == Id))
+                if (!_issueDb.Issues.Any(x => x.Id == Id))
                 {
-
-                    var List = _issueDb.Issues.ToList();
+                    result.Result = false;
+                    result.Message = $"Failed in finding target Id";
+                    return result;
+                }
+                var List = _issueDb.Issues.ToList();
 
                     foreach (var IssueList in List)
                     {
+
                         if (IssueList.Id == Id)
                         {
+
                             issueList.Add(new IssueModel
                             {
                                 Id = IssueList.Id,
@@ -94,22 +99,15 @@ namespace ToksApi.Services
                                 Completed = IssueList.Completed,
                                 Created = IssueList.Created
                             });
+
+                            result.Result = true;
+                            result.issueModels = issueList;
+                            result.Message = $"Succeded in finding target Id";
+                            return result;
+
                         }
-                       
-                    }
 
-                    if (issueList != null)
-                    {
-                        result.Result = true;
-                        result.issueModels = issueList;
-                        result.Message = $"Succeded in finding target Id";
-                        return result;
-                    }
-                    result.Result = false;
-                    result.Message = $"Failed in finding target Id";
-                    return result;
-
-                }
+                    }              
 
             }
             catch (Exception e)
@@ -282,12 +280,10 @@ namespace ToksApi.Services
                         result.Result = true;
                         return result;
                     }
-                    if (!result.issueModels.Any())
-                    {
                         result.Result = false;
                         result.Message = "IssueType Not In Database";
                         return result;
-                    }
+
 
                 }
             }
@@ -325,17 +321,15 @@ namespace ToksApi.Services
                     });
                     var match = _issueDb.Issues.Where(x => x.Priority == priority);
                     result.issueModels = match;
+
                     if (result.issueModels.Any())
                     {
                         result.Result = true;
                         return result;
                     }
-                    if (!result.issueModels.Any())
-                    {
-                        result.Result = false;
-                        result.Message = "IssueType Not In Database";
-                        return result;
-                    }
+                    result.Result = false;
+                    result.Message = "IssueType Not In Database";
+                    return result;                
                 }
 
                     result.Result = false;

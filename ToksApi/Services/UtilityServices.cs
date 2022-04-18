@@ -5,6 +5,43 @@ namespace ToksApi.Services
 {
     public class UtilityServices : IUtilityServices
     {
+        #region StringManipulation
+
+        public string ChangeCharAtSpecificLengthOne(int lenght, string TheString, char? TheNewCharacter)
+        {
+
+            if (TheNewCharacter != null)
+            {
+                var notAlterChar = TheString.Substring(0, lenght);
+                var stringLength = TheString.Length - lenght;
+                var newCharacter = new string((char)TheNewCharacter, lenght);
+                if (stringLength > 0)
+                {
+                    return notAlterChar + newCharacter;
+                }
+
+            }
+
+
+            return "TheNewCharacter is Null";
+        }
+
+        public string ChangeCharAtSpecificLengthTwo(int lenght, string TheString, char? TheNewCharacter)
+        {
+            if (TheNewCharacter != null)
+            {
+                return string.Create(TheString.Length, TheString, (span, value) =>
+                {
+                    value.AsSpan().CopyTo(span);
+                    span[lenght..].Fill((char)TheNewCharacter);
+                });
+            }
+
+            return "TheNewCharacter = null";
+        }
+
+        #endregion
+
 
         #region Search
 
